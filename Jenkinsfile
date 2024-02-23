@@ -19,14 +19,12 @@ pipeline {
                 volumes: [
                   persistentVolumeClaim(mountPath: '/home/jenkins/agent/.m2', claimName: 'maven-m2-pv-claim')
                 ],
-                workspaceVolume: dynamicPVC(accessModes: 'ReadWriteOnce', requestsSize: '10G', storageClassName: 'ebs-sc'),
+                workspaceVolume: genericEphemerdynamicPVCalVolume(accessModes: 'ReadWriteOnce', requestsSize: '10G', storageClassName: 'ebs-sc'),
               ) {
                 node(POD_LABEL) {
                   container('kaniko') {
                     sh 'echo hello from kaniko'
-                    sh 'sleep 299'
-                    sh 'ls -la ~'
-                    sh 'ls -la ~/.m2'
+                    sh '`pwd`/Dockerfile'
                     // sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination your-destination'
                   }
                 }
