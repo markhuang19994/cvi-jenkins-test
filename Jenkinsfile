@@ -1,14 +1,12 @@
 def cloud = 'JCR EKS';
 pipeline {
-  agent none
   stages {
     stage('Build') {
       parallel {
         stage("Build for AMD64 platform") {
           steps {
             script {
-              // def podYml = readFile('Jenkins-kaniko-amd64.yaml') 
-              def podYml = "123" 
+              def podYml = readFile' Jenkins-kaniko-amd64.yaml'
               podTemplate(
                 cloud: cloud,
                 yaml: podYml,
