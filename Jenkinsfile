@@ -10,7 +10,7 @@ pipeline {
         stage("Build for AMD64 platform") {
           steps {
             script {
-              def podYml = readFile' Jenkins-kaniko-amd64.yaml'
+              def podYml = readFile 'Jenkins-kaniko-amd64.yaml'
               podTemplate(
                 cloud: cloud,
                 yaml: podYml,
