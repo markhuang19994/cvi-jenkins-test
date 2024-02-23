@@ -14,25 +14,9 @@ pipeline {
               podTemplate(
                 cloud: cloud,
                 yaml: podYml,
-                name: 'kaniko',
-                namespace: 'default',
-                annotations: [podAnnotation(key: 'a', value: 'b')], 
                 // serviceAccount: 'jenkins-sa',
                 nodeSelector: 'kubernetes.io/arch=amd64',
-                volumes: [
-                  persistentVolumeClaim(mountPath: '/home/jenkins/agent/.m2', claimName: 'maven-m2-pv-claim')
-                ],
                 // workspaceVolume: genericEphemeralVolume(accessModes: 'ReadWriteOnce', requestsSize: '10G', storageClassName: 'ebs-sc'),
-                containers: [
-                  containerTemplate(
-                    name: 'kaniko',
-                    image: 'gcr.io/kaniko-project/executor:debug',
-                    command: 'sleep 99d',
-                    ttyEnabled: true,
-                    runAsUser: '1000',
-                    runAsGroup: '1000'
-                  )
-                ],
               ) {
                 node(POD_LABEL) {
                   container('kaniko') {
