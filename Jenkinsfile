@@ -12,7 +12,6 @@ pipeline {
                 name: 'kaniko',
                 namespace: 'default',
                 annotations: [podAnnotation(key: 'a', value: 'b')], 
-                labels: [podLabel(key: 'c', value: 'd')],
                 // serviceAccount: 'jenkins-sa',
                 nodeSelector: 'kubernetes.io/arch=amd64',
                 volumes: [
@@ -24,9 +23,8 @@ pipeline {
                     image: 'gcr.io/kaniko-project/executor:debug',
                     command: 'sleep 99d',
                     ttyEnabled: true,
-                    volumeMounts: [
-                      // volumeMount(mountPath: '/home/jenkins/agent/.m2', name: 'm2-home')
-                    ]
+                    runAsUser: '1000',
+                    runAsGroup: '1000'
                   )
                 ],
               ) {
