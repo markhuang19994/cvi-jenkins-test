@@ -6,7 +6,7 @@ metadata:
 spec:
   securityContext:
     fsGroup: 1000
-  serviceAccountName: jenkins-sa
+  # serviceAccountName: jenkins-sa
   nodeSelector:
     kubernetes.io/arch: amd64
   containers:
