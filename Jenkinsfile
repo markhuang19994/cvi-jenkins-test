@@ -9,6 +9,18 @@ pipeline {
               podTemplate(
                 name: 'kaniko',
                 namespace: 'default',
+                annotations: [
+                  {
+                    key: 'a',
+                    value: 'b'
+                  }
+                ],
+                labels: [
+                  {
+                    key: 'c',
+                    value: 'd'
+                  }
+                ],
                 // serviceAccount: 'jenkins-sa',
                 nodeSelector: 'kubernetes.io/arch=amd64',
                 volumes: [
@@ -25,12 +37,8 @@ pipeline {
                     ]
                   )
                 ],
-                securityContext: [
-                  fsGroup: 1000
-                ],
-                restartPolicy: 'Never'
               ) {
-                node('kaniko') {
+                node(POD_LABEL) {
                   container('kaniko') {
                     sh 'echo hello from kaniko'
                     // sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination your-destination'
