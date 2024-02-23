@@ -1,7 +1,9 @@
 def cloud = 'JCR EKS';
 pipeline {
-  agent { label 'master' }
-  
+  agent {
+    label 'master || built-in'
+  }
+
   stages {
     stage('Build') {
       parallel {
