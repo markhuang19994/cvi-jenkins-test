@@ -6,7 +6,7 @@ metadata:
 spec:
   securityContext:
     fsGroup: 1000
-  # serviceAccountName: jenkins-sa
+  serviceAccountName: jenkins-sa
   nodeSelector:
     kubernetes.io/arch: amd64
   containers:
@@ -16,11 +16,11 @@ spec:
         - sleep
       args:
         - 99d
-      # volumeMounts:
-      # - mountPath: /home/jenkins/agent/.m2
-      #   name: m2-home
+      volumeMounts:
+      - mountPath: /home/jenkins/agent/.m2
+        name: m2-home
   restartPolicy: Never
-  # volumes:
-  # - name: m2-home
-  #   persistentVolumeClaim:
-  #     claimName: jenkins-pv-claim-m2
+  volumes:
+  - name: m2-home
+    persistentVolumeClaim:
+      claimName: jenkins-pv-claim-m2

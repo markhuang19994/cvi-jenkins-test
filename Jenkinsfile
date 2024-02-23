@@ -1,53 +1,44 @@
- pipeline {
-    agent none
-    stages {
-      stage('Build'){
-        parallel {
-          stage("Build for AMD64 platform") {
-            agent {
-                kubernetes {
-                  cloud 'JCR EKS'
-                  yamlFile 'Jenkins-kaniko-amd64.yaml'
-                  // yaml 'Jenkins-kaniko-amd64.yaml'
+pipeline {
+  agent none
+  stages {
+    parallel {
+      stage("Build for AMD64 platform") {
+        steps {
+          script {
+            podTemplate(
+              name: 'kaniko',
+              namespace: 'default',
+              // serviceAccount: 'jenkins-sa',
+              nodeSelector: 'kubernetes.io/arch=amd64',
+              volumes: [
+                // persistentVolumeClaim(mountPath: '/home/jenkins/agent/.m2', claimName: 'jenkins-pv-claim-m2', name: 'm2-home')
+              ],
+              containers: [
+                containerTemplate(
+                  name: 'kaniko',
+                  image: 'gcr.io/kaniko-project/executor:debug',
+                  command: 'sleep 99d',
+                  ttyEnabled: true,
+                  volumeMounts: [
+                    // volumeMount(mountPath: '/home/jenkins/agent/.m2', name: 'm2-home')
+                  ]
+                )
+              ],
+              securityContext: [
+                fsGroup: 1000
+              ],
+              restartPolicy: 'Never'
+            ) {
+              node('kaniko') {
+                container('kaniko') {
+                  sh 'echo hello from kaniko'
+                  // sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination your-destination'
                 }
-            }
-            steps {
-              container('kaniko') {
-                sh 'echo hello 123 123'
-                //  sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination 899578970796.dkr.ecr.us-west-2.amazonaws.com/java-demo:202310-02-amd64'
               }
             }
           }
-
-          // stage("Build for ARM64 platform") {
-          //     agent {
-          //        kubernetes {
-          //          yamlFile 'Jenkins-kaniko-arm64.yaml'
-          //        }
-          //     }
-          //     steps {
-          //       container('kaniko') {
-          //          sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination 899578970796.dkr.ecr.us-west-2.amazonaws.com/java-demo:202310-02-arm64'
-          //       }
-          //     }
-          // }
         }
       }
-
-      // stage('Manifest'){
-      //   agent {
-      //        kubernetes {
-      //          yamlFile 'Jenkins-manifest-tool.yaml'
-      //        }
-      //   }
-      //   steps {
-      //     container('manifest-tool') {
-      //        sh 'docker-credential-ecr-login list'
-      //        sh 'chmod 700 ecrtodocker.sh'
-      //        sh './ecrtodocker.sh'
-      //        sh '/go/src/github.com/manifest-tool/manifest-tool push from-args --platforms linux/amd64,linux/arm64 --template 899578970796.dkr.ecr.us-west-2.amazonaws.com/java-demo:202310-02-ARCHVARIANT --target 899578970796.dkr.ecr.us-west-2.amazonaws.com/java-demo:202310-02'
-      //     }
-      //   }
-      // }
     }
+  }
 }
