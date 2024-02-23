@@ -6,7 +6,6 @@
           stage("Build for AMD64 platform") {
             agent {
                 kubernetes {
-                  cloud 'JCR EKS'
                   yaml 'Jenkins-kaniko-amd64.yaml'
                 }
             }
