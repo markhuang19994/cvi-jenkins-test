@@ -7,7 +7,8 @@
             agent {
                 kubernetes {
                   cloud 'JCR EKS'
-                  yaml 'Jenkins-kaniko-amd64.yaml'
+                  yamlFile 'Jenkins-kaniko-amd64.yaml'
+                  // yaml 'Jenkins-kaniko-amd64.yaml'
                 }
             }
             steps {
