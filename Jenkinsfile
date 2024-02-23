@@ -16,6 +16,9 @@ pipeline {
                 yaml: podYml,
                 // serviceAccount: 'jenkins-sa',
                 nodeSelector: 'kubernetes.io/arch=amd64',
+                volumes: [
+                  persistentVolumeClaim(mountPath: '/home/jenkins/agent/.m2', claimName: 'maven-m2-pv-claim')
+                ],
                 // workspaceVolume: genericEphemeralVolume(accessModes: 'ReadWriteOnce', requestsSize: '10G', storageClassName: 'ebs-sc'),
               ) {
                 node(POD_LABEL) {
