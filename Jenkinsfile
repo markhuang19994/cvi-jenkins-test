@@ -25,7 +25,7 @@ pipeline {
                   container('kaniko') {
                     checkout scm
                     sh 'echo hello from kaniko'
-                    sh '`pwd`/Dockerfile'
+                    // sh '`pwd`/Dockerfile'
                     // sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination your-destination'
                   }
                   container('kaniko') {
