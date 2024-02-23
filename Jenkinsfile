@@ -12,7 +12,7 @@ pipeline {
                 name: 'kaniko',
                 namespace: 'default',
                 annotations: [podAnnotation(key: 'a', value: 'b')], 
-                labels: [podLabels(key: 'c', value: 'd')],
+                labels: [podLabel(key: 'c', value: 'd')],
                 // serviceAccount: 'jenkins-sa',
                 nodeSelector: 'kubernetes.io/arch=amd64',
                 volumes: [
