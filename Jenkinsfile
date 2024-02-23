@@ -11,13 +11,13 @@ pipeline {
                 namespace: 'default',
                 annotations: [
                   {
-                    key: 'a',
+                    key: 'a-b-c-d-e',
                     value: 'b'
                   }
                 ],
                 labels: [
                   {
-                    key: 'c',
+                    key: 'c-d-e-f-g',
                     value: 'd'
                   }
                 ],
