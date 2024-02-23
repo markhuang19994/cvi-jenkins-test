@@ -31,10 +31,9 @@ pipeline {
                 node(POD_LABEL) {
                   container('kaniko') {
                     sh 'echo hello from kaniko'
-                    sh 'sleep 99'
+                    sh 'sleep 299'
                     sh 'ls -la ~'
                     sh 'ls -la ~/.m2'
-                    
                     // sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination your-destination'
                   }
                 }
