@@ -1,3 +1,4 @@
+def cloud = 'JCR EKS';
 pipeline {
   agent none
   stages {
@@ -7,14 +8,10 @@ pipeline {
           steps {
             script {
               podTemplate(
+                cloud: cloud,
                 name: 'kaniko',
                 namespace: 'default',
-                annotations: [
-                  {
-                    key: 'a-b-c-d-e',
-                    value: 'b'
-                  }
-                ],
+                podAnnotation(key: 'a', value: 'b')], 
                 labels: [
                   {
                     key: 'c-d-e-f-g',
