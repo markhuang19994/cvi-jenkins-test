@@ -17,7 +17,7 @@ pipeline {
                 volumes: [
                   persistentVolumeClaim(mountPath: '/home/jenkins/agent/.m2', claimName: 'maven-m2-pv-claim')
                 ],
-                workspaceVolume: genericEphemeralVolume(accessModes: 'ReadWriteOnce', requestsSize: '10G', storageClassName: 'ebs-sc'),
+                // workspaceVolume: genericEphemeralVolume(accessModes: 'ReadWriteOnce', requestsSize: '10G', storageClassName: 'ebs-sc'),
                 containers: [
                   containerTemplate(
                     name: 'kaniko',
