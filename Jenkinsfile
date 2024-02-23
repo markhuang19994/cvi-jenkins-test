@@ -15,7 +15,7 @@ pipeline {
                 // serviceAccount: 'jenkins-sa',
                 nodeSelector: 'kubernetes.io/arch=amd64',
                 volumes: [
-                  persistentVolumeClaim(mountPath: '/home/jenkins/agent/.m2', claimName: 'maven-m2-pv-claim', name: 'm2-home')
+                  persistentVolumeClaim(mountPath: '/home/jenkins/agent/.m2', claimName: 'maven-m2-pv-claim')
                 ],
                 containers: [
                   containerTemplate(
@@ -31,9 +31,10 @@ pipeline {
                 node(POD_LABEL) {
                   container('kaniko') {
                     sh 'echo hello from kaniko'
+                    sh 'sleep 99'
                     sh 'ls -la ~'
                     sh 'ls -la ~/.m2'
-                    sh 'id'
+                    
                     // sh '/kaniko/executor --context `pwd` --dockerfile `pwd`/Dockerfile --destination your-destination'
                   }
                 }
